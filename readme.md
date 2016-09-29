@@ -1,5 +1,5 @@
 # Graphmosphere
-A Twitter Bot that create geometric pictures and gif from static noises.  
+A Twitter Bot that create geometric pictures and gifs from static noises.  
 https://twitter.com/graphmosphere
 
 ## Ubuntu Server 16
