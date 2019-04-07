@@ -12,7 +12,7 @@ class HttpApi {
   
       try {
           println("Requesting Static from random.org");
-          HttpPost request = new HttpPost("https://api.random.org/json-rpc/1/invoke");
+          HttpPost request = new HttpPost("https://api.random.org/json-rpc/2/invoke");
           FileEntity params = new FileEntity( new File ( dataPath("randomPost.json") ) );
           request.addHeader("content-type", "application/json");
           request.setEntity(params);
