@@ -59,7 +59,7 @@
          :points)))
 
 (defn generate! [^Long seed]
-  (let [avg-radius (rand/double-seeded seed 50.0 100.0)
+  (let [avg-radius (rand/double-seeded seed 50.0 125.0)
         irregularity (rand/double-seeded seed 0.0 1.0)
         spikiness (rand/double-seeded seed 0.0 1.0)
         num-vertices (int (rand/double-seeded seed 3.0 100.0))]
