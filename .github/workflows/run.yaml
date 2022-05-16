@@ -14,9 +14,11 @@ jobs:
 
     steps:
     - name: Download Latest Release
-      uses: pozetroninc/github-action-get-latest-release@master
+    - uses: robinraju/release-downloader@v1.3
       with:
         repository: ${{ github.repository }}
+        latest: true
+        fileName: "graphmosphere"
 
     - name: Execute binary
       run: |
