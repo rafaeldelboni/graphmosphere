@@ -20,6 +20,7 @@ jobs:
 
     - name: Execute binary
       run: |
+        ls
         chmod +x graphmosphere
         ./graphmosphere
       env:
