@@ -13,10 +13,12 @@ jobs:
     runs-on: ubuntu-latest
 
     steps:
-    - id: graphmosphere
+    - name: Download Latest Release
       uses: pozetroninc/github-action-get-latest-release@master
       with:
         repository: ${{ github.repository }}
+
+    - name: Execute binary
       run: |
         chmod +x graphmosphere
         ./graphmosphere
