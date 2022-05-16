@@ -1,0 +1,60 @@
+name: Release
+
+on:
+  push:
+    tags:
+      - 'v[0-9]+.[0-9]+*'
+  workflow_dispatch:
+
+jobs:
+  linux-amd64:
+    continue-on-error: true
+    runs-on: ubuntu-latest
+    strategy:
+      fail-fast: false
+    steps:
+      - uses: actions/checkout@v3
+
+      - name: Prepare java
+        uses: actions/setup-java@v3
+        with:
+          distribution: adopt
+          java-version: 11
+
+      - name: Install Clojure
+        uses: DeLaGuardo/setup-clojure@master
+        with:
+          cli: '1.10.3.1093'
+
+      - name: Install Babashka
+        run: curl -s https://raw.githubusercontent.com/borkdude/babashka/master/install | sudo bash
+
+      - name: Install GraalVM
+        uses: DeLaGuardo/setup-graalvm@master
+        with:
+          graalvm: 22.0.0.2
+          java: java11
+
+      - name: Install native-image component
+        run: |
+          gu install native-image
+
+      - name: Compile Java classes
+        run: |
+          mkdir -p classes
+          clojure -M -e "(compile 'global-permissions.compile)"
+
+      - name: Build Linux native image
+        env:
+          CLOJURE_LSP_XMX: "-J-Xmx6g"
+          CLOJURE_LSP_STATIC: true
+        run: |
+          ./build-native.sh
+
+      - name: Release to GiHub
+        uses: softprops/action-gh-release@v1
+        with:
+          files: "target/graphmosphere"
+          draft: true
+        env:
+          GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}

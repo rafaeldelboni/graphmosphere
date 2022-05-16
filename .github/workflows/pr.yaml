@@ -1,0 +1,95 @@
+name: pull-request
+
+on:
+  pull_request:
+    branches: [ main ]
+  workflow_dispatch:
+
+jobs:
+
+  tests-coverage:
+
+    strategy:
+      matrix:
+        operating-system: [ubuntu-latest]
+
+    runs-on: ${{ matrix.operating-system }}
+
+    steps:
+      - name: Checkout
+        uses: actions/checkout@v3
+
+      - name: Prepare java
+        uses: actions/setup-java@v3
+        with:
+          distribution: 'adopt'
+          java-version: '11'
+
+      - name: Install clojure tools-deps
+        uses: DeLaGuardo/setup-clojure@master
+        with:
+          tools-deps: 1.10.3.1093
+
+      - name: Cache Maven packages
+        uses: actions/cache@v3
+        with:
+          path: ~/.m2
+          key: ${{ runner.os }}-m2-tests-${{ hashFiles('**/deps.edn') }}
+          restore-keys: ${{ runner.os }}-m2-pr
+
+      - name: Execute clojure code
+        run: clojure -M:test-kaocha
+
+  check-lint:
+
+    strategy:
+      matrix:
+        operating-system: [ubuntu-latest]
+
+    runs-on: ${{ matrix.operating-system }}
+
+    steps:
+      - name: Checkout
+        uses: actions/checkout@v3
+
+      - name: Prepare java
+        uses: actions/setup-java@v3
+        with:
+          distribution: 'adopt'
+          java-version: '11'
+
+      - name: Install clojure tools-deps
+        uses: DeLaGuardo/setup-clojure@master
+        with:
+          tools-deps: 1.10.3.1093
+
+      - name: Cache Maven packages
+        uses: actions/cache@v3
+        with:
+          path: ~/.m2
+          key: ${{ runner.os }}-m2-tests-${{ hashFiles('**/deps.edn') }}
+          restore-keys: ${{ runner.os }}-m2
+
+      - name: Execute lint checks
+        run: |
+          clojure -M:clojure-lsp format --dry
+          clojure -M:clojure-lsp clean-ns --dry
+          clojure -M:clojure-lsp diagnostics
+
+  security:
+
+    strategy:
+      matrix:
+        operating-system: [ubuntu-latest]
+
+    runs-on: ${{ matrix.operating-system }}
+
+    steps:
+      - name: Checkout
+        uses: actions/checkout@v3
+
+      - name: Scan
+        uses: clj-holmes/clj-holmes-action@main
+        with:
+          output-type: 'stdout'
+          fail-on-result: 'true'

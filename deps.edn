@@ -1,0 +1,26 @@
+{:paths ["src" "resources"]
+ :deps {org.clojure/clojure {:mvn/version "1.11.1"}
+        clj-http/clj-http {:mvn/version "3.12.3"}
+        cheshire/cheshire {:mvn/version "5.10.2"}
+        com.github.clj-easy/graal-build-time {:mvn/version "0.1.4"}
+        com.github.clj-easy/graal-config-cheshire {:git/url   "https://github.com/clj-easy/graal-config"
+                                                   :git/sha   "0dc2862e1b1c9871eef4c306ef77da3610a2bd93"
+                                                   :deps/root "config/cheshire/cheshire"}
+        com.github.clj-easy/graal-config-clj-http {:git/url   "https://github.com/clj-easy/graal-config"
+                                                   :git/sha   "0dc2862e1b1c9871eef4c306ef77da3610a2bd93"
+                                                   :deps/root "config/clj-http/clj-http/"}}
+ :aliases
+ {:build {:deps {io.github.seancorfield/build-clj
+                 {:git/tag "v0.8.0" :git/sha "9bd8b8a"
+                  ;; since we're building an app uberjar, we do not
+                  ;; need deps-deploy for clojars.org deployment:
+                  :deps/root "slim"}}
+          :ns-default build}
+  :clojure-lsp {:replace-deps {com.github.clojure-lsp/clojure-lsp-standalone {:mvn/version "2022.02.23-12.12.12"}}
+                :main-opts ["-m" "clojure-lsp.main"]}
+  :test-kaocha {:extra-deps {lambdaisland/kaocha {:mvn/version "1.65.1029"}}
+                :main-opts ["-m" "kaocha.runner"]}
+  :test {:extra-paths ["test"]
+         :extra-deps {org.clojure/test.check {:mvn/version "1.1.1"}
+                      io.github.cognitect-labs/test-runner
+                      {:git/tag "v0.5.0" :git/sha "48c3c67"}}}}}
