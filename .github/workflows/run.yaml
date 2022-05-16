@@ -1,0 +1,27 @@
+name: Run
+
+on:
+  schedule:
+  # At 12:00pm
+  - cron: '0 12 * * *'
+
+  workflow_dispatch:
+
+jobs:
+
+  run:
+    runs-on: ubuntu-latest
+
+    steps:
+    - id: graphmosphere
+      uses: pozetroninc/github-action-get-latest-release@master
+      with:
+        repository: ${{ github.repository }}
+      run: |
+        chmod +x graphmosphere
+        ./graphmosphere
+      env:
+        TWITTER_ACCESS_TOKEN: ${{ secrets.TWITTER_ACCESS_TOKEN }}
+        TWITTER_ACCESS_TOKEN_SECRET: ${{ secrets.TWITTER_ACCESS_TOKEN_SECRET }}
+        TWITTER_API_KEY: ${{ secrets.TWITTER_API_KEY }}
+        TWITTER_API_KEY_SECRET: ${{ secrets.TWITTER_API_KEY_SECRET }}
