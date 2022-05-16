@@ -24,30 +24,19 @@ jobs:
       - name: Install Clojure
         uses: DeLaGuardo/setup-clojure@master
         with:
-          cli: '1.10.3.1093'
-
-      - name: Install Babashka
-        run: curl -s https://raw.githubusercontent.com/borkdude/babashka/master/install | sudo bash
+          cli: '1.11.1.1113'
 
       - name: Install GraalVM
         uses: DeLaGuardo/setup-graalvm@master
         with:
-          graalvm: 22.0.0.2
+          graalvm: vm-22.1.0
           java: java11
 
       - name: Install native-image component
         run: |
           gu install native-image
 
-      - name: Compile Java classes
-        run: |
-          mkdir -p classes
-          clojure -M -e "(compile 'global-permissions.compile)"
-
       - name: Build Linux native image
-        env:
-          CLOJURE_LSP_XMX: "-J-Xmx6g"
-          CLOJURE_LSP_STATIC: true
         run: |
           ./build-native.sh
 
