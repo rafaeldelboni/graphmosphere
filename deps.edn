@@ -16,11 +16,11 @@
                   ;; need deps-deploy for clojars.org deployment:
                   :deps/root "slim"}}
           :ns-default build}
-  :clojure-lsp {:replace-deps {com.github.clojure-lsp/clojure-lsp-standalone {:mvn/version "2022.02.23-12.12.12"}}
+  :clojure-lsp {:replace-deps {com.github.clojure-lsp/clojure-lsp-standalone {:mvn/version "2022.05.03-12.35.40"}}
                 :main-opts ["-m" "clojure-lsp.main"]}
-  :test-kaocha {:extra-deps {lambdaisland/kaocha {:mvn/version "1.65.1029"}}
+  :test-kaocha {:extra-deps {lambdaisland/kaocha {:mvn/version "1.66.1034"}}
                 :main-opts ["-m" "kaocha.runner"]}
   :test {:extra-paths ["test"]
          :extra-deps {org.clojure/test.check {:mvn/version "1.1.1"}
                       io.github.cognitect-labs/test-runner
-                      {:git/tag "v0.5.0" :git/sha "48c3c67"}}}}}
+                      {:git/tag "v0.5.1" :git/sha "dfb30dd"}}}}}
