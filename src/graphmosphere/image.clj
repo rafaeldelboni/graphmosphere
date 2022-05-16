@@ -1,14 +1,20 @@
 (ns graphmosphere.image
-  (:require [graphmosphere.vertices :as vertices]
-            [graphmosphere.random :as rand])
+  (:require [graphmosphere.random :as rand]
+            [graphmosphere.vertices :as vertices])
   (:import [com.sun.imageio.plugins.png PNGMetadata]
-           [java.awt Color Graphics2D RenderingHints]
+           [java.awt
+            Color
+            Graphics2D
+            RenderingHints]
            [java.awt.geom GeneralPath]
            [java.awt.image BufferedImage]
            [java.io File]
            [java.nio.file Files]
            [java.util Base64]
-           [javax.imageio IIOImage ImageIO ImageWriter]
+           [javax.imageio
+            IIOImage
+            ImageIO
+            ImageWriter]
            [javax.imageio.stream FileImageOutputStream]))
 
 (set! *warn-on-reflection* true)
