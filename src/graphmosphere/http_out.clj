@@ -9,7 +9,6 @@
   (http/check-url! url)
   (http/request (-> payload
                     (merge {:as :json
-                            :content-type :json
                             :form-params body
                             :headers headers
                             :cookie-policy :default})
